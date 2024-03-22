@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  
+  <header>
+    <nav>
+        
+        <h5>RohiBookStore.</h5>
+        <div class="empty"></div>
+        <div class="navcont">
+            <a href="index.html">Home</a>
+            <a id="catalogueLink" href="#">Catalogue</a>
+            <a href="login.html">Login</a>
+            <a href="register.html">Register</a>
+        </div>
+        
+    </nav>
+</header>
+<div class="container">
+
+    <section class="categories">
+        <button onclick="alert('Go to catalogue page')"> CSE</button>
+        <button onclick="alert('Go to catalogue page')"> ECE</button>
+        <button onclick="alert('Go to catalogue page')"> EEE</button>
+        <button onclick="alert('Go to catalogue page')"> MECH</button>
+    
+        
+    </section>
+    
+    <section class="highlights" >
+        <div class="content">
+
+        <h3>Welcome to RohiBookStore, </h3>
+        <p>Collection of Engineering Books for all Branches. You just need to open you account by Registering in our website.</p>
+        <h3>Thankyou for your Interest!</h3>
+        <h2>Happy Learning</h2>
+    </div>
+
+        
+    </section>
+</div>
+<footer>
+    hello
+
+</footer>
+
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var catalogueLink = document.getElementById('catalogueLink');
+            catalogueLink.addEventListener('click', function(event) {
+                event.preventDefault();
+                if (!isLoggedIn()) {
+                    alert('Please login to access the catalogue.');
+                    window.location.href = 'login.html';
+                } else {
+                    window.location.href = 'catalogue.html';
+                }
+            });
+        });
+
+       
+
+    </script>
+</body>
+</html>

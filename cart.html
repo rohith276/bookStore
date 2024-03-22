@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+        /* Same styles as catalogue page */
+        body {
+            background-color: #88ccdd;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            color: white;
+            width: 100%;
+        }
+
+        h1 {
+            background-color: #4ac;
+            padding: 30px;
+            margin-top: 0;
+            max-height: 100px;
+            font-family: "Courier New", Courier, monospace;
+            color: white;
+            width: 100%;
+        }
+
+        #genreFilter {
+            color: white;
+            background-color: #88ccdd;
+            border-radius: 5px;
+            padding: 8px;
+            border: 2px solid white;
+            max-width: fit-content;
+            max-height: fit-content;
+            margin-bottom: 20px;
+        }
+
+        .tablecontent {
+            background-color: #4ac;
+            width: 70%;
+            justify-content: center;
+            padding: 50px;
+            border: 2px solid white;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+
+        button {
+            color: white;
+            background-color: #44aacc;
+            border: 2px solid white;
+            box-shadow: black 2px 2px 4px;
+        }
+
+        button:hover {
+            cursor: pointer;
+            background-color: #8cd;
+            border: white solid 2px;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Cart</h1>
+</header>
+
+<div class="tablecontent">
+    <table id="cartTable">
+        <thead>
+        <tr>
+            <th>Title</th>
+            <th>Genre</th>
+            <th>Quantity</th>
+        </tr>
+        </thead>
+        <tbody id="cartTableBody">
+        <!-- Cart items will be dynamically added here -->
+        </tbody>
+    </table>
+    <div style="color: white;padding: 20px;" id="totalPrice"></div> <!-- Display total price here -->
+    <button onclick="placeOrder()">Place Order</button>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+        var cartTableBody = document.getElementById("cartTableBody");
+
+        var books = [
+              { title: "Web Technologies ", genre: "CSE", price: 531 },
+              { title: "PHP & MYSQL Web Development ", genre: "CSE", price: 898 },
+              { title: "Digital Circuits", genre: "ECE", price: 264  },
+              { title: "signal and Systems", genre: "ECE", price: 342 },
+              { title: "Concepts in Electric Circuits", genre: "EEE", price: 247  },
+              { title: "Electrical Power", genre: "EEE", price: 420  },
+              { title: "Digital Communications", genre: "ECE", price: 623  },
+              { title: "Theory of Mechines", genre: "MECH", price: 642 },
+              { title: "Introduction to Electronic Engineering", genre: "EEE", price: 399  },
+              { title: "Automation and Robotics", genre: "MECH", price: 999 },
+              { title: "Engineering Fluid Mechanics", genre: "MECH", price: 879 },
+          ];
+
+        function populateCartTable() {
+            cartTableBody.innerHTML = "";
+            var cartItemCounts = {}; // Object to store the count of each item in the cart
+            cartItems.forEach(function (cartItem) {
+                cartItemCounts[cartItem] = (cartItemCounts[cartItem] || 0) + 1; // Increment count for each occurrence
+            });
+            Object.keys(cartItemCounts).forEach(function (cartItem) {
+                var quantity = cartItemCounts[cartItem];
+                var book = books.find(function (book) {
+                    return book.title === cartItem;
+                });
+
+                if (book) {
+                    var row = document.createElement("tr");
+                    row.innerHTML = `
+                        <td>${book.title}</td>
+                        <td>${book.genre}</td>
+                        <td id="${book.title.replace(/\s+/g, '')}Quantity">${quantity}</td>
+                       
+                    `;
+                    cartTableBody.appendChild(row);
+                }
+            });
+            calculateTotalPrice(); // Calculate total price after populating the cart table
+        }
+
+        function calculateTotalPrice() {
+            var totalPrice = 0;
+            cartItems.forEach(function (cartItem) {
+                var book = books.find(function (book) {
+                    return book.title === cartItem;
+                });
+                if (book) {
+                    totalPrice += book.price;
+                }
+            });
+            document.getElementById("totalPrice").innerText = "Total Price: Rs." + totalPrice.toFixed(2);
+        }
+
+        populateCartTable();
+    });
+
+    function removeFromCart(title) {
+        var index = cartItems.indexOf(title);
+        if (index !== -1) {
+            cartItems.splice(index, 1); // Remove the book from cartItems array
+            localStorage.setItem("cartItems", JSON.stringify(cartItems));
+            populateCartTable(); // Update the cart table
+        }
+
+        // Update quantity display in the table
+        var quantityCellId = title.replace(/\s+/g, '') + 'Quantity';
+        var quantityCell = document.getElementById(quantityCellId);
+        if (quantityCell) {
+            quantityCell.innerText = parseInt(quantityCell.innerText) - 1;
+        }
+    }
+
+    function placeOrder() {
+        alert("Order placed!");
+        if (confirm("Do you want to navigate to the catalogue page?")) {
+            window.location.href = "catalogue.html";
+        }
+    }
+</script>
+</body>
+</html>

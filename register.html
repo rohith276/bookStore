@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      body {
+        background-color: #8cd;
+        background-color: #88ccdd;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      form {
+        border: 2px solid white;
+        padding: 40px;
+        margin-top: 25px;
+        box-shadow: 3px 3px 3px;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        max-width: 50%;
+        justify-content: center;
+      }
+
+      .form-group {
+        width: 100%;
+        position: relative;
+        margin-bottom: 20px;
+        padding: 20px;
+      }
+
+      label {
+        position: absolute;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+        transition: 0.2s ease-out;
+        color: white;
+        padding: 10px;
+        margin-left: 20px;
+        margin-top: 15px;
+        font-size: large;
+      }
+
+      input:focus {
+        outline: none;
+      }
+
+      input:focus + label,
+      input:valid + label {
+        font-size: 15px;
+        top: -20px;
+        color: #31a8ff;
+      }
+
+      input {
+        width: 90%;
+        padding: 10px;
+        border: none;
+        position: relative;
+        background-color: transparent;
+        border-bottom: 2px solid #31a8ff;
+        border-radius: 4px;
+        background-color: transparent;
+        color: #f4f4f4;
+      }
+
+      button {
+        color: white;
+        background-color: #44aacc;
+        border: 2px solid white;
+        box-shadow: black 2px 2px 4px;
+        padding: 10px;
+        margin: 20px;
+      }
+
+      button:hover {
+        cursor: pointer;
+        background-color: #8cd;
+        border: white solid 2px;
+      }
+
+      #togglePassword {
+        position: relative;
+        right: -200px;
+        top: -30px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <form id="registerForm">
+      <h2>Register</h2>
+      <div class="form-group">
+        <input type="text" id="username" name="username" required />
+        <label for="username"
+          >Username: <strong style="color: red">*</strong></label
+        >
+      </div>
+      <div class="form-group">
+        <input type="text" id="firstName" name="firstName" required />
+        <label for="firstName"
+          >First Name: <strong style="color: red">*</strong></label
+        >
+      </div>
+      <div class="form-group">
+        <input type="text" id="lastName" name="lastName" required />
+        <label for="lastName"
+          >Last Name: <strong style="color: red">*</strong></label
+        >
+      </div>
+      <div class="form-group">
+        <input type="email" id="email" name="email" required />
+        <label for="email">Email: <strong style="color: red">*</strong></label>
+      </div>
+      <div class="form-group">
+        <input type="password" id="password" name="password" required />
+        <label for="password"
+          >Password: <strong style="color: red">*</strong></label
+        >
+        <span id="togglePassword" onclick="togglePasswordVisibility()">🫣</span>
+      </div>
+      <div class="form-group">
+        <input
+          type="password"
+          id="confirmPassword"
+          name="confirmPassword"
+          required
+        />
+        <label for="confirmPassword"
+          >Confirm Password: <strong style="color: red">*</strong></label
+        >
+      </div>
+      <div class="form-group">
+        <input type="text" id="address" name="address" required />
+        <label for="address"
+          >Address:<strong style="color: red">*</strong></label
+        >
+      </div>
+      <div class="form-group">
+        <input
+          type="text"
+          id="mobileNumber"
+          name="mobileNumber"
+          required
+          pattern="[0-9]{10}"
+        />
+        <label for="mobileNumber"
+          >Mobile Number:<strong style="color: red">*</strong></label
+        >
+      </div>
+
+      <div class="form-group" style="padding: 15px;margin: 0;">
+        <label style="padding: 0;"for="male">Male</label>
+        <input type="radio" id="male" name="gender" value="male" required />
+    </div>
+    <div class="form-group" style="padding: 15px; margin: 0;">
+        <label style="padding: 0;" for="female">Female</label>
+        <input type="radio" id="female" name="gender" value="female" required />
+    </div>
+      <div>
+        <button type="submit">Register</button>
+        <button type="reset">Reset</button>
+      </div>
+    </form>
+
+    <script>
+      function registerUser(username, password) {
+        var users = JSON.parse(localStorage.getItem("users")) || {};
+        users[username] = password;
+        localStorage.setItem("users", JSON.stringify(users));
+        return { success: true, message: "Registration successful!" };
+      }
+
+      // Function to check if the username already exists
+      function checkUserExists(username) {
+        var users = JSON.parse(localStorage.getItem("users")) || {};
+        return users.hasOwnProperty(username);
+      }
+
+      // Function to handle user registration
+      document.addEventListener("DOMContentLoaded", function () {
+        var registerForm = document.getElementById("registerForm");
+        if (registerForm) {
+          registerForm.addEventListener("submit", function (event) {
+            event.preventDefault();
+            var username = document.getElementById("username").value;
+            var firstName = document.getElementById("firstName").value;
+            var lastName = document.getElementById("lastName").value;
+            var email = document.getElementById("email").value;
+            var password = document.getElementById("password").value;
+            var confirmPassword =
+              document.getElementById("confirmPassword").value;
+            var address = document.getElementById("address").value;
+            var mobileNumber = document.getElementById("mobileNumber").value;
+            var gender = document.querySelector('input[name="gender"]:checked');
+
+            // Regular expressions for validation
+            var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            var mobileRegex = /^\d{10}$/;
+
+            // Check if passwords match
+            if (password !== confirmPassword) {
+              alert("Passwords do not match.");
+              return;
+            }
+
+            // Validate email
+            if (!emailRegex.test(email)) {
+              alert("Invalid email address.");
+              return;
+            }
+
+            // Validate mobile number
+            if (!mobileRegex.test(mobileNumber)) {
+              alert("Invalid mobile number.");
+              return;
+            }
+
+            // Proceed with registration
+            var userExists = checkUserExists(username);
+            if (userExists) {
+              alert(
+                "Username already exists. Please choose a different username."
+              );
+              return;
+            } else {
+              // Register the user if the username is available
+              var registrationResult = registerUser(username, password);
+              if (registrationResult.success) {
+                alert(registrationResult.message);
+                window.location.href = "login.html";
+              } else {
+                alert(registrationResult.message);
+              }
+            }
+          });
+        }
+      });
+
+      // Function to toggle password visibility
+      function togglePasswordVisibility() {
+        var passwordInput = document.getElementById("password");
+        var togglePasswordIcon = document.getElementById("togglePassword");
+
+        if (passwordInput.type === "password") {
+          passwordInput.type = "text";
+          togglePasswordIcon.textContent = "😳";
+        } else {
+          passwordInput.type = "password";
+          togglePasswordIcon.textContent = "😌";
+        }
+      }
+    </script>
+
+    <script src="script.js"></script>
+  </body>
+</html>

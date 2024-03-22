@@ -1,0 +1,114 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+   
+}
+nav{
+    background-color:#44aacc;
+    justify-content: space-around;
+    height: 100px;
+    width:auto;
+    justify-self: right;
+    display: flex;
+    align-items: center;
+
+}
+
+h5{
+    color:white;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: x-large; 
+    padding: 20px;
+    left: 0;
+}
+.empty{
+    width: 500px;
+}
+.navcont{
+    display: flex;
+    justify-content:space-around;
+    width: 500px;
+}
+.navcont a{
+    color: white;
+    text-decoration: none;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    padding: 7px;
+}
+.navcont a:hover{
+    background-color:#88ccdd;
+    border-radius: 5px;
+    border: #446677 solid 3px;
+    
+}
+
+.categories button{
+    color: white;
+    padding: 30px;
+    align-items: center;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    background-color: transparent;
+    border: none;
+    font-size: large;
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+}
+.categories, .highlights {
+    padding: 20px;
+    border: 1px solid #ccc;
+}
+.categories {
+    flex: 1;
+    order: 1;
+    background-color: #88ccdd;
+    width: 150px;
+    height: 700px;
+}
+.highlights {
+    order: 2;
+    flex: 8;
+    background-image: url('images/bg.jpg');
+    opacity: 0.5;
+    background-size: cover;
+}
+.content{
+    color: white;
+    padding: 50px;
+}
+.content h3,h2,p{
+    font-size: x-large;
+    text-shadow: #333 4px 4px 4px ;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 2px solid white;
+    padding: 8px;
+    color: white;
+}
+
+th {
+    background-color: #88ccdd;
+    text-align: left;
+    color: white;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    text-shadow:gray 4px 4px 4px;
+}
+
+
+#togglePassword {
+    cursor: pointer;
+}
+button:hover{
+    cursor: pointer;
+    border: 2px solid white;
+
+}
